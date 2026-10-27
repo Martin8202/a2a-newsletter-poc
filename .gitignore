@@ -1,0 +1,13 @@
+# 帳密與個人設定
+.env
+
+# 每次執行產物與失敗紀錄（含蒐集內容，不進版控）
+runs/
+failures.jsonl
+test_agents.py
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

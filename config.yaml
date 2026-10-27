@@ -1,0 +1,56 @@
+timezone: Asia/Taipei
+lookback_days: 7
+min_passed_items: 3
+keep:                      # 查核通過後，各區依熱度精選的則數
+  onprem: 6
+  industry: 4
+min_heat_score:            # SPEC §6.4：熱度分數低於此值剔除（0 = 不設門檻；可寫單一數字或依區設定）
+  onprem: 1.0
+  industry: 0.5            # Martin 決定（2026-10-27）：產業新聞多半只有媒體報導（0.5 分）
+on_insufficient: notify    # 精選後 < min_passed_items：notify = 改寄品質不足通知；send_with_warning = 照寄並加警示
+correction:                # SPEC §6.5：欄位校正
+  max_per_item: 3
+  fields: [title, summary, key_points, published_date, onprem_value.hardware,
+           onprem_value.inference_efficiency, onprem_value.license, onprem_value.compliance]
+heat:                      # SPEC §6.4：熱度由 API 取得，門檻為起始值
+  timeout_seconds: 10
+  retries: 1
+  min_interval_seconds: 0.2
+  hn:     { per_day: [50, 200], comments_bonus: 100, max_age_days: 14 }  # 討論串超過 14 天視為與本週無關
+  hf:     { downloads_per_day: [5000, 50000], likes_bonus: 500 }
+  github: { stars: [1000, 10000] }
+  reference_score: 0.5     # Reddit、獨立媒體
+agents:
+  collector:
+    command: agy
+    model: gemini-3.8-flash-high        # 可用值見 `agy models`；2026-10-27 試用 claude-opus-4-6-thinking 效果較差（0 則通過），已改回
+    effort: null                        # low / medium / high / xhigh / max；null = 不指定
+    json_schema: prompts/draft.schema.json
+    timeout_seconds: 1800   # 候選約 20–25 則，蒐集時間較長
+    retries: 1
+  reviewer:
+    command: claude
+    model: sonnet          # Martin 決定（2026-10-26）：執行時查核用 Sonnet
+    allowed_tools: ["WebFetch", "WebSearch"]
+    concurrency: 3         # 同時查核的則數
+    timeout_seconds: 600   # 每則
+    retries: 1
+url_resolver:
+  redirect_domains:
+    - vertexaisearch.cloud.google.com
+    - www.google.com/url
+  timeout_seconds: 15
+  max_redirects: 10
+  retries: 1
+  strip_params: ["utm_*"]
+  precheck:                # SPEC §6.2 來源預檢
+    timeout_seconds: 10
+    retries: 1
+    dead_statuses: [404, 410]
+mail:
+  to: martin@example.com
+  subject: "AI 地端與開源模型週報 {end_date}"
+  smtp_host: smtp.gmail.com
+  smtp_port: 587
+  retries: 2
+  retry_interval_seconds: 60

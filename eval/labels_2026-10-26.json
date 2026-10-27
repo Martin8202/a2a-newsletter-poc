@@ -1,0 +1,30 @@
+{
+  "source_run": "runs/2026-10-26",
+  "period": { "start": "2026-10-19", "end": "2026-10-26" },
+  "rule": "依 SPEC v0.7 §6.3、§6.5：來源可讀、標題與摘要的核心事件有依據（值寫錯但有原句可校正者算成立）、日期在期間內（可依原句校正或有期間內 HN 討論）→ core_ok = true",
+  "labeled_by": "Claude Opus 5.5，2026-10-27；依兩次查核紀錄與親自查證，Martin 可抽查",
+  "items": {
+    "L1": { "core_ok": true, "note": "（2026-10-27 修正，原標 false 錯誤）IBM 新聞稿 2026-10-20「llm-d 1.0 Advances Open, Cost-Efficient AI Inference」確認 1.0 發布、CNCF 治理、5–10 倍成本降低；GitHub README 尚未更新（親自查證）。標題「CNCF 釋出」略有出入" },
+    "L2": { "core_ok": false, "note": "The Register 來源 404；HN 連結為 2025 年無關討論、Reddit id 疑似編造" },
+    "L3": { "core_ok": false, "note": "（2026-10-27 修正，原標 true 過寬）摘要「單 token 僅活化 4B」與模型卡「8B (4B effective)」不符；「4GB 流暢執行」唯一來源 MarkTechPost 403 無法驗證" },
+    "L4": { "core_ok": false, "note": "標題「單張 24GB 顯卡可跑」與 3-bit：模型卡只寫 B300 / H200，沒有 24GB；也沒有發布日期（親自查證）" },
+    "L5": { "core_ok": false, "note": "標題把 q2_0 歸於 v0.40.10/11，實為 v0.40.6（10/16）；摘要的 Windows 2GiB 修復無依據" },
+    "L6": { "core_ok": false, "note": "發布日 10/17 早於期間；HF 為 763B 非 552B；SSD 卸載 / 125GB 不在本則來源（出自 Unsloth 說明）" },
+    "L7": { "core_ok": false, "note": "摘要的 FlagOS、20+ 晶片在部落格與 vLLM 說明都找不到；vLLM v0.32.0 為 10/18" },
+    "L8": { "core_ok": false, "note": "（2026-10-27 修正，原標 true 過寬）標題「首度原生支援 Apple Silicon」：release 只寫 now runs on Apple Silicon，README 早已列 Macs via Metal / MLX；摘要「Day-0 支援」release 全文沒有（親自查證）。日期 10/13 實為 19 Oct，可校正" },
+    "L9": { "core_ok": false, "note": "標題的 DP4A MMQ 對齊、投機拒絕取樣：b11890–b11900 的 release 標題都沒有（親自查證）" },
+    "L10": { "core_ok": false, "note": "發布日 10/15 早於期間；256GB 運行說法無依據" },
+    "L11": { "core_ok": true, "note": "v0.1.910（10/23）確有 MoE 專家存 SSD、Qwen3.8-Flash-Next 跑在 32GB Mac、REAP；mcp add 在 v0.1.909（親自查證）。標題「流暢」與原文 slower replies 有出入，屬細節。重播時查核者因頁面截斷誤判" },
+    "L12": { "core_ok": false, "note": "標題「優化 KV Cache」與 README「KV cache not included in this release」矛盾；摘要「內部使用、全系列 MoE」無依據" },
+    "L13": { "core_ok": false, "note": "repo 無期間內日期，Reddit id 為 2026 年 1 月舊文，無法確認在期間內" },
+    "L14": { "core_ok": true, "note": "PyTorch 部落格確認 Google 與 Meta 合作、eager 與 torch.compile、vLLM / SGLang 驗證；授權 BSD 實為 Apache 2.0（可校正）。標題「vLLM 原生支援」略誇大，屬邊界案例" },
+    "I1": { "core_ok": false, "note": "官方連結 404；HN 指向公開的 SEC 文件，與摘要「秘密遞交」矛盾，「10 月 26 日」無依據" },
+    "I2": { "core_ok": false, "note": "標題「宣布成立」錯誤：AAIF 2025 年 12 月已成立，本週為新增四個專案" },
+    "I3": { "core_ok": true, "note": "VentureBeat（10/23）確認 218 家、79%、70%；Reddit 熱度連結為 2024 年舊文，題材不符" },
+    "I4": { "core_ok": false, "note": "標題「GTC Berlin」與摘要「於柏林」：官方公告全文沒有（親自查證）" },
+    "I5": { "core_ok": false, "note": "「揚棄開源、僅提供商業 API」與頁面「可自行部署」矛盾；頁面無發布日期" },
+    "I6": { "core_ok": false, "note": "標題「超越商用對手」與頁面（落後 Claude Opus 5.5）矛盾；2.8 兆 / 104B 無依據（頁面為 3T-class）" },
+    "I7": { "core_ok": false, "note": "blog.google 來源 404；發布日 10/13 早於期間" },
+    "I8": { "core_ok": false, "note": "iThome 來源 403，內容無法驗證" }
+  }
+}

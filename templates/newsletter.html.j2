@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 地端與開源模型週報 {{ final.period.end }}</title>
+</head>
+<body style="margin:0;background:#f4f4f5;font-family:-apple-system,'Segoe UI','Microsoft JhengHei',sans-serif;color:#18181b;">
+<div style="max-width:640px;margin:0 auto;padding:16px;background:#fff;line-height:1.6;font-size:15px;">
+  <h1 style="font-size:20px;margin:0 0 4px;">AI 地端與開源模型週報</h1>
+  <div style="color:#71717a;font-size:13px;">{{ final.period.start }} ～ {{ final.period.end }}</div>
+
+  {% if final.insufficient %}
+  <p style="background:#fef3c7;border-left:4px solid #f59e0b;padding:8px 12px;">⚠ 本週內容不足：僅 {{ final.stats.shown }} 則通過查核。</p>
+  {% endif %}
+
+  <h2 style="font-size:17px;border-bottom:1px solid #e4e4e7;padding-bottom:4px;">本週 3 大必看熱議焦點</h2>
+  <ol style="padding-left:20px;">
+    {% for p in final.top3 %}<li>{{ p.text }}（{{ p.related_ids | join("、") }}）</li>
+    {% else %}<li>本週無通過查核的焦點</li>{% endfor %}
+  </ol>
+
+  <h2 style="font-size:17px;border-bottom:1px solid #e4e4e7;padding-bottom:4px;">地端建置與開源 / 開放權重模型熱議新知</h2>
+  {% for i in onprem %}
+  <div style="margin:0 0 18px;">
+    <div style="font-weight:600;">{{ i.id }}｜{{ i.title }}</div>
+    {% set note = i | edit_note %}{% if note %}<div style="font-size:12px;color:#92400e;">{{ note }}</div>{% endif %}
+    <div>{{ i.summary }}</div>
+    {% if i.key_points %}<ul style="margin:4px 0;padding-left:20px;">
+      {% for k in i.key_points %}<li>{{ k.text }}</li>{% endfor %}
+    </ul>{% endif %}
+    {% if i.why_hot %}<div><b>為何熱門：</b>{{ i.why_hot }}</div>{% endif %}
+    {% if i.onprem_value %}<ul style="margin:4px 0;padding-left:20px;color:#3f3f46;">
+      <li>硬體門檻：{{ i.onprem_value.hardware }}</li>
+      <li>推論效率：{{ i.onprem_value.inference_efficiency }}</li>
+      <li>商用授權：{{ i.onprem_value.license }}</li>
+      <li>合規評估：{{ i.onprem_value.compliance }}</li>
+    </ul>{% endif %}
+    {% set labels = (i.heat_metrics | default([])) | map("heat_label") | select | list %}
+    {% if labels %}<div style="font-size:13px;color:#52525b;">熱度：{{ labels | join("、") }}</div>{% endif %}
+    <div style="font-size:13px;">
+      {% for l in i.sources %}<a href="{{ l.url }}">{{ l.label }}</a>（{{ l.domain }}）{% if not loop.last %}　{% endif %}{% endfor %}
+    </div>
+  </div>
+  {% else %}<p>本週無通過查核的項目。</p>{% endfor %}
+
+  <h2 style="font-size:17px;border-bottom:1px solid #e4e4e7;padding-bottom:4px;">AI 產業其他重要動態</h2>
+  <ul style="padding-left:20px;">
+    {% for i in industry %}
+    <li>{{ i.title }}：{{ i.summary }}
+      {% set note = i | edit_note %}{% if note %}<span style="font-size:12px;color:#92400e;">{{ note }}</span>{% endif %}
+      {% for l in i.sources %}<a href="{{ l.url }}">{{ l.label }}</a>（{{ l.domain }}）{% endfor %}</li>
+    {% else %}<li>本週無通過查核的項目。</li>{% endfor %}
+  </ul>
+
+  <div style="margin-top:24px;padding-top:8px;border-top:1px solid #e4e4e7;color:#71717a;font-size:12px;">
+    本週蒐集 {{ final.stats.collected }} 則、查核通過 {{ final.stats.passed }} 則（其中 {{ final.stats.corrected | default(0) }} 則經校正或刪減，精選 {{ final.stats.shown }} 則）、未通過 {{ final.stats.failed }} 則（詳見執行紀錄）
+  </div>
+</div>
+</body>
+</html>
